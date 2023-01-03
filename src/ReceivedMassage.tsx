@@ -1,33 +1,24 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SenderSection from "./Components/SenderSection";
 import TitleSection from "./Components/TitleSection";
 import ReceiveMessageSection from "./Components/ReceiveMessageSection";
 import ThemeSection from "./Components/ThemeSection";
 import InputMessageSection from "./Components/InputMessageSection";
-import BottomSection from "./Components/BottomSection";
 
-const BEARE_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVpZCI6ImRhZWU2YmI5LTEwZmEtNDZmMC04ZDk0LTdlMjdkODY3NzdjOSJ9LCJhY2NvdW50Ijp7InVpZCI6IjJlOTM3OWExLTJmZjEtNDU1MC05OTkwLWVlZGFkZmNjYjNkOCJ9LCJpYXQiOjE2NzI2NTY5OTEsImV4cCI6MTY3NTI0ODk5MSwiaXNzIjoiZmFuZGRsZSIsInN1YiI6ImF1dGgifQ.IplI76PV-fbzeeAC9PKcvenJKO9LqV2SsVq1AtnHJ3Q";
+import { useRecoilValue } from "recoil";
+import {
+  themeCategoryDetailSelector,
+  themeCategorySelector,
+  themeSelector,
+} from "./fetcher";
 
 export default function ReceivedMassage() {
-  const [data, setData] = useState();
-  useEffect(() => {
-    axios
-      .get(
-        "https://prod-app.fanddle.co.kr/gift/recv?giftUid=9a49ba72-dfbe-4ef6-9104-609f77c11ff2",
-        {
-          headers: { Authorization: `Bearer ${BEARE_TOKEN}` },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const data = useRecoilValue(themeSelector);
+  const data2 = useRecoilValue(themeCategorySelector);
+  const data3 = useRecoilValue(themeCategoryDetailSelector);
+  console.log(data);
+  console.log(data2);
+  console.log(data3);
   return (
     <Window>
       <Container>
@@ -37,9 +28,11 @@ export default function ReceivedMassage() {
         <SenderWrapper>
           <SenderSection />
         </SenderWrapper>
-        <ReceiveMessageWrapper>
-          <ReceiveMessageSection />
-        </ReceiveMessageWrapper>
+        <ReceiveMessage>
+          <ReceiveMessageWrapper>
+            <ReceiveMessageSection />
+          </ReceiveMessageWrapper>
+        </ReceiveMessage>
         <ThemeWrapper>
           <ThemeSection />
         </ThemeWrapper>
@@ -47,7 +40,7 @@ export default function ReceivedMassage() {
           <InputMessageSection />
         </InputMessageWrapper>
         <BottomWrapper>
-          <BottomSection />
+          <SendButton>감동메시지 보내기</SendButton>
         </BottomWrapper>
       </Container>
     </Window>
@@ -61,6 +54,7 @@ const Window = styled.div`
   height: 100%;
 `;
 const Container = styled.div`
+  overflow: hidden;
   width: 320px;
   height: auto;
   padding: 7px 15px;
@@ -72,7 +66,6 @@ const TopWrapper = styled.div`
   width: 100%;
   height: 75px;
 `;
-
 const SenderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -80,31 +73,48 @@ const SenderWrapper = styled.div`
   width: 100%;
   height: 60px;
 `;
-
 const ReceiveMessageWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: auto;
+  margin-bottom: 20px;
   padding: 0px 10px;
-  border: 1px solid rgba(219, 219, 219, 0.3);
+  border: 1px solid rgba(219, 219, 219, 0.7);
   border-radius: 6px;
 `;
-
+const ReceiveMessage = styled.div`
+  width: 100%;
+  height: auto;
+`;
 const ThemeWrapper = styled.div`
   width: 100%;
-  height: 320px;
+  height: 340px;
 `;
-
 const InputMessageWrapper = styled.div`
   width: 100%;
   height: 200px;
 `;
-
 const BottomWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   width: 100%;
   height: 150px;
+`;
+const ModalWrapper = styled.div`
+  width: 100%;
+  height: 60px;
+`;
+const SendButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background-color: #f25449;
+  border-radius: 10px;
 `;

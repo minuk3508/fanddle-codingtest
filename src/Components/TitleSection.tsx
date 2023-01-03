@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { IoIosArrowBack } from "react-icons/io";
 import { BsThreeDots } from "react-icons/bs";
 import { SlArrowLeft } from "react-icons/sl";
 

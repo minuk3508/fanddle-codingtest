@@ -1,17 +1,22 @@
-import React from "react";
+import dayjs from "dayjs";
 import styled from "styled-components";
+import { ReceivedMessageSelector } from "../fetcher";
+import { useRecoilValue } from "recoil";
 
 export default function SenderSection() {
+  const data = useRecoilValue(ReceivedMessageSelector);
+  const date = dayjs(data.createdAt).format("YYYY.MM.DD");
+
   return (
     <>
       <SenderBox>
         <SenderImage />
         <SenderName>
           <span>from.</span>
-          <Name>JO-HOMIN</Name>
+          <Name>{data.sender.username}</Name>
         </SenderName>
       </SenderBox>
-      <SendDateBox>2023.01.03</SendDateBox>
+      <SendDateBox>{date}</SendDateBox>
     </>
   );
 }
@@ -26,6 +31,9 @@ const SenderImage = styled.div`
   height: 35px;
   border-radius: 50%;
   background-color: red;
+  background-image: url("https://ifh.cc/g/bjywMP.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 const SenderName = styled.div`
   display: flex;
