@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import {
-  ModalComponenState,
+  ModalModeState,
   ModalOpenValueState,
   selectedRecomendedTemplate,
-} from "../atoms";
+} from "../Store/statesStore";
 
-type TextareaProps = {
-  isoverlenth: string;
+type StyledProps = {
+  isoverlenth: "red" | "#8f8f8f";
 };
 
 export default function InputMessageSection() {
-  // const [text, setText] = useState<string>("");
   const [text, setText] = useRecoilState(selectedRecomendedTemplate);
-  const [, setMode] = useRecoilState(ModalComponenState);
+  const [, setMode] = useRecoilState(ModalModeState);
   const [overLength, setOverLength] = useState(false);
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
 
@@ -26,19 +25,15 @@ export default function InputMessageSection() {
       setOverLength(false);
     }
   };
-
+  const recomendMessage = () => {
+    setIsModal(true);
+    setMode({ mode: "recomededMessage" });
+  };
   return (
     <>
       <Title>
         메시지 입력하기
-        <Span
-          onClick={() => {
-            setIsModal(true);
-            setMode({ mode: "recomededMessage" });
-          }}
-        >
-          추천메시지 보기
-        </Span>
+        <Span onClick={recomendMessage}>추천메시지 보기</Span>
       </Title>
       <MessageContentsWrapper>
         <MessageContents spellCheck={false} value={text} onChange={inputText} />
@@ -62,6 +57,9 @@ const Span = styled.span`
   font-size: 11px;
   font-weight: 600;
   color: #8f8f8f;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const MessageContentsWrapper = styled.div`
   display: flex;
@@ -96,7 +94,7 @@ const MessageContents = styled.textarea`
     border-radius: 20px;
   }
 `;
-const MaxTextLangth = styled.div<TextareaProps>`
+const MaxTextLangth = styled.div<StyledProps>`
   font-size: 12px;
   color: ${(props) => props.isoverlenth};
 `;

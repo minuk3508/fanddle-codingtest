@@ -1,90 +1,68 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { ModalOpenValueState, selectedRecomendedTemplate } from "../atoms";
-import {
-  recomendCategoryDetailSelector,
-  recomendCategorySelector,
-  recomendSelector,
-  selectedRecomendCategoryState,
-  selectedRecomendedState,
-} from "../fetcher";
+import { ModalOpenValueState, selectedRecomendedTemplate } from "../../Store/statesStore";
+import { selectedRecomendedState } from "../../Store/fetcherStore";
+import RecomendMessageModalCategory from "./RecomendMessageModalCategory";
+import useFetchTemplate from "../../Hooks/templateFetcher";
+
+const templateStyle = {
+  selected: { backgroundColor: "#f25449", color: "white", border: "none" },
+  unselected: {
+    backgroundColor: "white",
+    color: "black",
+    border: "1px solid rgba(219, 219, 219, 0.7)",
+  },
+};
 
 export default function RecomendMessageModal() {
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
   const [selectedUid, setSelectedUid] = useRecoilState(selectedRecomendedState);
   const [, setTemplate] = useRecoilState(selectedRecomendedTemplate);
-  const [categoryUid, setCategoryUid] = useRecoilState(
-    selectedRecomendCategoryState
-  );
+  const { isLoading, isError, data: recomendDetailCategory } = useFetchTemplate("detail");
 
-  const recomendCategory = useRecoilValue(recomendCategorySelector);
+  const closeButtonClick = () => {
+    setIsModal(false);
+  };
 
-  const recomendDetailCategory = useRecoilValue(recomendCategoryDetailSelector);
+  const confimButtonClick = () => {
+    setIsModal(false);
+  };
 
+  if (isLoading) {
+    return <div>로딩중입니다.</div>;
+  }
+
+  if (isError) {
+    return <div>오류가 발생했어요!</div>;
+  }
   return (
     <>
       <ModalTopWrapper>
         <TitleBox>추천 메시지 보기</TitleBox>
-        <CloseButtonBox onClick={() => setIsModal(false)}>
+        <CloseButtonBox onClick={closeButtonClick}>
           <AiOutlineClose />
         </CloseButtonBox>
       </ModalTopWrapper>
       <CategoryWrapper>
-        <CategoryItems
-          style={
-            categoryUid === "default"
-              ? { backgroundColor: "#f25449", color: "white" }
-              : { backgroundColor: "#f0f0f0", color: "#858585" }
-          }
-          onClick={() => {
-            setCategoryUid("default");
-          }}
-        >
-          전체
-        </CategoryItems>
-        {recomendCategory.categories.map((i: any) => (
-          <CategoryItems
-            key={i.uid}
-            style={
-              categoryUid === i.uid
-                ? { backgroundColor: "#f25449", color: "white" }
-                : { backgroundColor: "#f0f0f0", color: "#858585" }
-            }
-            onClick={() => {
-              setCategoryUid(i.uid);
-            }}
-          >
-            {i.name}
-          </CategoryItems>
-        ))}
+        <RecomendMessageModalCategory />
       </CategoryWrapper>
-      <ThemeContentsWrapper>
+      <TemplateItemWrapper>
         {recomendDetailCategory.map((i: any) => (
-          <ThemeContentsImage
+          <TemplateItem
             key={i.uid}
-            style={
-              selectedUid === i.uid
-                ? { border: "2px solid #f25449" }
-                : { border: "1px solid rgba(219, 219, 219, 0.7)" }
-            }
+            style={selectedUid === i.uid ? templateStyle.selected : templateStyle.unselected}
             onClick={() => {
               setSelectedUid(i.uid);
               setTemplate(i.koTemplate);
             }}
           >
             {i.koTemplate}
-          </ThemeContentsImage>
+          </TemplateItem>
         ))}
-      </ThemeContentsWrapper>
+      </TemplateItemWrapper>
       <ModalBottomWrapper>
-        <ConfirmButton
-          onClick={() => {
-            setIsModal(false);
-          }}
-        >
-          확인
-        </ConfirmButton>
+        <ConfirmButton onClick={confimButtonClick}>확인</ConfirmButton>
       </ModalBottomWrapper>
     </>
   );
@@ -123,21 +101,8 @@ const CategoryWrapper = styled.div`
     display: none;
   }
 `;
-const CategoryItems = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-  min-width: 90px;
-  height: 26px;
-  padding: 0px 10px;
-  margin-right: 5px;
-  font-size: 11px;
-  /* color: #858585; */
-  /* background-color: #f0f0f0; */
-  border-radius: 8px;
-`;
-const ThemeContentsWrapper = styled.div`
+
+const TemplateItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,8 +116,7 @@ const ThemeContentsWrapper = styled.div`
     display: none;
   }
 `;
-
-const ThemeContentsImage = styled.div`
+const TemplateItem = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -161,6 +125,9 @@ const ThemeContentsImage = styled.div`
   font-size: 13px;
   padding: 11px;
   border-radius: 5px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const ConfirmButton = styled.div`
   display: flex;

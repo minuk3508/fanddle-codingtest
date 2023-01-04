@@ -28,6 +28,9 @@ const BackButtonBox = styled.div`
   width: 20%;
   height: 100%;
   font-size: 20px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const TitleBox = styled.div`
   display: flex;
@@ -45,4 +48,7 @@ const SettingButtonBox = styled.div`
   width: 20%;
   height: 100%;
   font-size: 15px;
+  :hover {
+    cursor: pointer;
+  }
 `;

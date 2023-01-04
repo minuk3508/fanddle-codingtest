@@ -1,11 +1,16 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
-import { ReceivedMessageSelector } from "../fetcher";
-import { useRecoilValue } from "recoil";
+import useFetchInBox from "../Hooks/inBoxFetcher";
 
 export default function SenderSection() {
-  const data = useRecoilValue(ReceivedMessageSelector);
-  const date = dayjs(data.createdAt).format("YYYY.MM.DD");
+  const { isLoading, isError, data } = useFetchInBox();
+
+  if (isLoading) {
+    return <div>로딩중입니다.</div>;
+  }
+  if (isError) {
+    return <div>오류가 발생했어요!</div>;
+  }
 
   return (
     <>
@@ -16,7 +21,7 @@ export default function SenderSection() {
           <Name>{data.sender.username}</Name>
         </SenderName>
       </SenderBox>
-      <SendDateBox>{date}</SendDateBox>
+      <SendDateBox>{dayjs(data.createdAt).format("YYYY.MM.DD")}</SendDateBox>
     </>
   );
 }
@@ -55,7 +60,6 @@ const SendDateBox = styled.div`
   align-items: center;
   width: 30%;
   height: 60px;
-
   font-size: 11px;
   font-weight: 600;
 `;

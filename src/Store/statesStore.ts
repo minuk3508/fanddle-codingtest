@@ -9,8 +9,8 @@ export const ModalOpenValueState = atom({
   key: `ModalOpenValueState/${v1()}`,
   default: false,
 });
-export const ModalComponenState = atom<ModalComponentType>({
-  key: `ModalComponenState/${v1()}`,
+export const ModalModeState = atom<ModalComponentType>({
+  key: `ModalModeState/${v1()}`,
   default: { mode: "recomededMessage" },
 });
 

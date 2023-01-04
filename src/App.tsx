@@ -1,16 +1,14 @@
-import Router from "./Router";
+import React from "react";
 import { GlobalStyle } from "./Style/GlobalStyle";
 import { RecoilRoot } from "recoil";
-import React from "react";
+import InboxPage from "./Page/InboxPage";
 
 export default function App() {
   return (
     <>
       <GlobalStyle />
       <RecoilRoot>
-        <React.Suspense>
-          <Router />
-        </React.Suspense>
+        <InboxPage />
       </RecoilRoot>
     </>
   );

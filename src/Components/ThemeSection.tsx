@@ -1,53 +1,37 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  selectedThemeState,
-  themeCategoryDetailSelector,
-  themeSelector,
-} from "../fetcher";
-import { useRecoilValue, useRecoilState } from "recoil";
-import {
-  selectedImageUrl,
-  ModalOpenValueState,
-  ModalComponenState,
-} from "../atoms";
-
-type StyledProps = {
-  outLine?: string;
-  url?: string;
-};
+import { useRecoilState } from "recoil";
+import { selectedImageUrl, ModalOpenValueState, ModalModeState } from "../Store/statesStore";
+import useFetchTheme from "../Hooks/themeFetcher";
 
 export default function ThemeSection() {
-  const themeData = useRecoilValue(themeCategoryDetailSelector);
+  const { isLoading, isError, data } = useFetchTheme("detail");
   const [themeImage, setThemeImage] = useRecoilState(selectedImageUrl);
-  const [, setMode] = useRecoilState(ModalComponenState);
+  const [, setMode] = useRecoilState(ModalModeState);
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
 
+  const detailstheme = () => {
+    setIsModal(true);
+    setMode({ mode: "theme" });
+  };
+  if (isLoading) {
+    return <div>로딩중입니다.</div>;
+  }
+
+  if (isError) {
+    return <div>오류가 발생했어요!</div>;
+  }
   return (
     <>
       <Title>
         테마 선택
-        <Span
-          onClick={() => {
-            setIsModal(true);
-            setMode({ mode: "theme" });
-          }}
-        >
-          편지테마 자세히보기
-        </Span>
+        <Span onClick={detailstheme}>편지테마 자세히보기</Span>
       </Title>
       <ThemeContents>
         <SelectThemeBox>
           <SelectTheme>
-            {themeData.map((i: any) => (
+            {data.map((i: any) => (
               <ThemeIconsBox key={i.uid}>
-                <ThemeIcons
-                  key={i.uid}
-                  src={i.iconUrl}
-                  onClick={() => {
-                    setThemeImage(i.mainUrl);
-                  }}
-                />
+                <ThemeIcons key={i.uid} src={i.iconUrl} onClick={() => setThemeImage(i.mainUrl)} />
               </ThemeIconsBox>
             ))}
           </SelectTheme>
@@ -55,7 +39,7 @@ export default function ThemeSection() {
         <ThemeImageBox>
           <ThemeImage
             alt="선택된 테마이미지"
-            src={themeImage === "default" ? themeData[0].mainUrl : themeImage}
+            src={themeImage === "default" ? data[0].mainUrl : themeImage}
           />
         </ThemeImageBox>
       </ThemeContents>
@@ -114,7 +98,7 @@ const ThemeIconsBox = styled.div`
   margin-right: 6px;
   border-radius: 10px;
 `;
-const ThemeIcons = styled.img<StyledProps>`
+const ThemeIcons = styled.img`
   width: 60px;
   height: 60px;
   :hover {

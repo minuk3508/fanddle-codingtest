@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from "react";
 import { useRecoilState } from "recoil";
 import styled, { keyframes } from "styled-components";
-import { ModalOpenValueState } from "../atoms";
+import { ModalOpenValueState } from "../../Store/statesStore";
 
 type ModalProps = {
   children: ReactNode;

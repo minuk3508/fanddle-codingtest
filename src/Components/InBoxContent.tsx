@@ -1,26 +1,31 @@
 import styled from "styled-components";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
-import { ReceivedMessageSelector } from "../fetcher";
-import { useRecoilValue } from "recoil";
 import { useState } from "react";
+import useFetchInBox from "../Hooks/inBoxFetcher";
 
 type StyledProps = {
-  isSpread: string;
+  spreadValue: "350px" | "40px";
 };
 
-export default function ReceiveMessageSection() {
+export default function InBoxContent() {
   const [isSpread, setIsSpread] = useState(false);
-  const data = useRecoilValue(ReceivedMessageSelector);
+  const { isLoading, isError, data } = useFetchInBox();
+  const spreadButtonClick = () => {
+    setIsSpread((prev) => !prev);
+  };
 
+  if (isLoading) {
+    return <div>로딩중입니다.</div>;
+  }
+
+  if (isError) {
+    return <div>오류가 발생했어요!</div>;
+  }
   return (
-    <Wrapper isSpread={isSpread ? "350px" : "40px"}>
+    <Wrapper spreadValue={isSpread ? "350px" : "40px"}>
       <TopSection>
         <Placeholder>받은 메시지</Placeholder>
-        <SpreadButton
-          onClick={() => {
-            setIsSpread((prev) => !prev);
-          }}
-        >
+        <SpreadButton onClick={spreadButtonClick}>
           {isSpread ? <SlArrowUp /> : <SlArrowDown />}
         </SpreadButton>
       </TopSection>
@@ -61,7 +66,7 @@ const SpreadButton = styled.div`
 const Wrapper = styled.div<StyledProps>`
   width: 100%;
   height: auto;
-  min-height: ${(props) => props.isSpread};
+  min-height: ${(props) => props.spreadValue};
   transition: 0.3s all;
 `;
 const TopSection = styled.div`
