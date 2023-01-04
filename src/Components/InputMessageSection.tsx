@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { ModalOpenValueState } from "../atoms";
 
 type TextareaProps = {
   isoverlenth: string;
@@ -8,7 +10,7 @@ type TextareaProps = {
 export default function InputMessageSection() {
   const [text, setText] = useState<string>("");
   const [overLength, setOverLength] = useState(false);
-
+  const [, setIsModal] = useRecoilState(ModalOpenValueState);
   const inputText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
     if (text.length > 300) {
@@ -21,7 +23,8 @@ export default function InputMessageSection() {
   return (
     <>
       <Title>
-        메시지 입력하기<Span>추천메시지 보기</Span>
+        메시지 입력하기
+        <Span onClick={() => setIsModal(true)}>추천메시지 보기</Span>
       </Title>
       <MessageContentsWrapper>
         <MessageContents spellCheck={false} value={text} onChange={inputText} />

@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { themeSelector } from "../fetcher";
+import {
+  selectedThemeState,
+  themeCategoryDetailSelector,
+  themeSelector,
+} from "../fetcher";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { ModalOpenValueState } from "../atoms";
+import { ModalOpenValueState, selectedImageUrl } from "../atoms";
 
 type StyledProps = {
   outLine?: string;
@@ -10,9 +14,9 @@ type StyledProps = {
 };
 
 export default function ThemeSection() {
-  const themeData = useRecoilValue(themeSelector);
+  const themeData = useRecoilValue(themeCategoryDetailSelector);
+  const [themeImage, setThemeImage] = useRecoilState(selectedImageUrl);
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
-  const [imageUrl, setImageUrl] = useState(themeData[0].mainUrl);
 
   return (
     <>
@@ -29,7 +33,7 @@ export default function ThemeSection() {
                   key={i.uid}
                   src={i.iconUrl}
                   onClick={() => {
-                    setImageUrl(i.mainUrl);
+                    setThemeImage(i.mainUrl);
                   }}
                 />
               </ThemeIconsBox>
@@ -37,7 +41,10 @@ export default function ThemeSection() {
           </SelectTheme>
         </SelectThemeBox>
         <ThemeImageBox>
-          <ThemeImage alt="선택된 테마이미지" src={imageUrl} />
+          <ThemeImage
+            alt="선택된 테마이미지"
+            src={themeImage === "default" ? themeData[0].mainUrl : themeImage}
+          />
         </ThemeImageBox>
       </ThemeContents>
     </>
@@ -98,6 +105,9 @@ const ThemeIconsBox = styled.div`
 const ThemeIcons = styled.img<StyledProps>`
   width: 60px;
   height: 60px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const ThemeImageBox = styled.div`
   width: 100%;

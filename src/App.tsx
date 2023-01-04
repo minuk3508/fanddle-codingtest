@@ -8,7 +8,7 @@ export default function App() {
     <>
       <GlobalStyle />
       <RecoilRoot>
-        <React.Suspense fallback={<div>Loading...</div>}>
+        <React.Suspense>
           <Router />
         </React.Suspense>
       </RecoilRoot>
