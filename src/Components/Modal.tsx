@@ -9,6 +9,7 @@ type ModalProps = {
 
 export default function Modal({ children }: ModalProps) {
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
+
   const modalElement = useRef<HTMLDivElement>(null);
   const onClick = (e: any) => {
     if (!modalElement.current?.contains(e.target)) {

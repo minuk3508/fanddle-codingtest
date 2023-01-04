@@ -9,9 +9,17 @@ export const selectedCategoryState = atom({
   key: "selectedCategoryState",
   default: "default",
 });
+export const selectedRecomendCategoryState = atom({
+  key: "selectedRecomendCategoryState",
+  default: "default",
+});
 
 export const selectedThemeState = atom({
   key: "selectedThemeState",
+  default: "default",
+});
+export const selectedRecomendedState = atom({
+  key: "selectedRecomendedState",
   default: "default",
 });
 
@@ -40,6 +48,31 @@ export const themeSelector = selector({
     return response.data.data.themes;
   },
 });
+export const recomendSelector = selector({
+  key: `recomendSelector/${v1()}`,
+  get: async () => {
+    const response = await axios.get(
+      "https://prod-app.fanddle.co.kr/gift/answer/template?",
+      {
+        headers: { Authorization: `Bearer ${BEARE_TOKEN}` },
+      }
+    );
+    return response.data.data.giftCelebAnswerTemplates;
+  },
+});
+
+export const recomendCategorySelector = selector({
+  key: `recomendCategorySelector/${v1()}`,
+  get: async () => {
+    const response = await axios.get(
+      "https://prod-app.fanddle.co.kr/gift/answer/template/categories",
+      {
+        headers: { Authorization: `Bearer ${BEARE_TOKEN}` },
+      }
+    );
+    return response.data.data;
+  },
+});
 
 export const themeCategorySelector = selector({
   key: `themeCategorySelector/${v1()}`,
@@ -54,6 +87,29 @@ export const themeCategorySelector = selector({
   },
 });
 
+export const recomendCategoryDetailSelector = selector({
+  key: `recomendCategoryDetailSelector/${v1()}`,
+  get: async ({ get }) => {
+    const id = get(selectedRecomendCategoryState);
+    if (id === "default") {
+      const response = await axios.get(
+        "https://prod-app.fanddle.co.kr/gift/answer/template?",
+        {
+          headers: { Authorization: `Bearer ${BEARE_TOKEN}` },
+        }
+      );
+      return response.data.data.giftCelebAnswerTemplates;
+    } else {
+      const response = await axios.get(
+        `https://prod-app.fanddle.co.kr/gift/answer/template?categoryUid=${id}`,
+        {
+          headers: { Authorization: `Bearer ${BEARE_TOKEN}` },
+        }
+      );
+      return response.data.data.giftCelebAnswerTemplates;
+    }
+  },
+});
 export const themeCategoryDetailSelector = selector({
   key: `themeCategoryDetailSelector/${v1()}`,
   get: async ({ get }) => {

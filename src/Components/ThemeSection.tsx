@@ -6,7 +6,11 @@ import {
   themeSelector,
 } from "../fetcher";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { ModalOpenValueState, selectedImageUrl } from "../atoms";
+import {
+  selectedImageUrl,
+  ModalOpenValueState,
+  ModalComponenState,
+} from "../atoms";
 
 type StyledProps = {
   outLine?: string;
@@ -16,13 +20,21 @@ type StyledProps = {
 export default function ThemeSection() {
   const themeData = useRecoilValue(themeCategoryDetailSelector);
   const [themeImage, setThemeImage] = useRecoilState(selectedImageUrl);
+  const [, setMode] = useRecoilState(ModalComponenState);
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
 
   return (
     <>
       <Title>
         테마 선택
-        <Span onClick={() => setIsModal(true)}>편지테마 자세히보기</Span>
+        <Span
+          onClick={() => {
+            setIsModal(true);
+            setMode({ mode: "theme" });
+          }}
+        >
+          편지테마 자세히보기
+        </Span>
       </Title>
       <ThemeContents>
         <SelectThemeBox>

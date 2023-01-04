@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { ModalOpenValueState } from "../atoms";
+import {
+  ModalComponenState,
+  ModalOpenValueState,
+  selectedRecomendedTemplate,
+} from "../atoms";
 
 type TextareaProps = {
   isoverlenth: string;
 };
 
 export default function InputMessageSection() {
-  const [text, setText] = useState<string>("");
+  // const [text, setText] = useState<string>("");
+  const [text, setText] = useRecoilState(selectedRecomendedTemplate);
+  const [, setMode] = useRecoilState(ModalComponenState);
   const [overLength, setOverLength] = useState(false);
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
+
   const inputText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
     if (text.length > 300) {
@@ -24,7 +31,14 @@ export default function InputMessageSection() {
     <>
       <Title>
         메시지 입력하기
-        <Span onClick={() => setIsModal(true)}>추천메시지 보기</Span>
+        <Span
+          onClick={() => {
+            setIsModal(true);
+            setMode({ mode: "recomededMessage" });
+          }}
+        >
+          추천메시지 보기
+        </Span>
       </Title>
       <MessageContentsWrapper>
         <MessageContents spellCheck={false} value={text} onChange={inputText} />
