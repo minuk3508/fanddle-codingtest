@@ -25,7 +25,6 @@ export default function InboxPage() {
   const [isMiniModalOpen] = useRecoilState(MiniModalOpenValueState);
   const [modalMode] = useRecoilState(ModalModeState);
   const [MiniModalMode] = useRecoilState(MiniModalModeState);
-  console.log(process.env.REACT_APP_API_KEY);
 
   const ModalComponent = useCallback(() => {
     let nowMode = modalMode.mode;
