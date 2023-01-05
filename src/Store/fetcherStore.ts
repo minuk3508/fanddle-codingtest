@@ -3,8 +3,7 @@ import { selector } from "recoil";
 import { v1 } from "uuid";
 import { selectedCategoryState, selectedRecomendCategoryState } from "./statesStore";
 
-const BEARE_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVpZCI6ImRhZWU2YmI5LTEwZmEtNDZmMC04ZDk0LTdlMjdkODY3NzdjOSJ9LCJhY2NvdW50Ijp7InVpZCI6IjJlOTM3OWExLTJmZjEtNDU1MC05OTkwLWVlZGFkZmNjYjNkOCJ9LCJpYXQiOjE2NzI2NTY5OTEsImV4cCI6MTY3NTI0ODk5MSwiaXNzIjoiZmFuZGRsZSIsInN1YiI6ImF1dGgifQ.IplI76PV-fbzeeAC9PKcvenJKO9LqV2SsVq1AtnHJ3Q";
+const BEARE_TOKEN = process.env.REACT_APP_API_KEY;
 
 export const inBoxSelector = selector({
   key: `inBoxSelector/${v1()}`,
