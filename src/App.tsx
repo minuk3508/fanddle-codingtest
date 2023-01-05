@@ -1,4 +1,3 @@
-import React from "react";
 import { GlobalStyle } from "./Style/GlobalStyle";
 import { RecoilRoot } from "recoil";
 import InboxPage from "./Page/InboxPage";

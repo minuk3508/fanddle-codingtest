@@ -6,9 +6,9 @@ import {
   themeSelector,
 } from "../Store/fetcherStore";
 
-type SelectorOfTheme = "all" | "category" | "detail";
+type FetcherType = "all" | "category" | "detail";
 
-export default function useFetchTheme(keyword: SelectorOfTheme) {
+export default function useFetchTheme(keyword: FetcherType) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [data, setData] = useState<any>();

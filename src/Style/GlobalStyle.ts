@@ -56,7 +56,8 @@ body {
     width: 100vw;
     height: 100vh;
   font-weight: 300;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Alfa Slab One', cursive;
+font-family: 'Noto Sans KR', sans-serif;
   line-height: 1.2;
 }
 a {

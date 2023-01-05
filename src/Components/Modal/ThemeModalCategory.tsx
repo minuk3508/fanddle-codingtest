@@ -1,8 +1,7 @@
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import useFetchTheme from "../../Hooks/themeFetcher";
-import { selectedCategoryState } from "../../Store/fetcherStore";
-import { selectedImageUrl } from "../../Store/statesStore";
+import { selectedCategoryState, selectedImageUrl } from "../../Store/statesStore";
 
 const categoryStyle = {
   selected: { backgroundColor: "#f25449", color: "white" },
@@ -10,9 +9,9 @@ const categoryStyle = {
 };
 
 export default function ThemeModalCategory() {
+  const { isLoading, isError, data: categoryData } = useFetchTheme("category");
   const [selectedCategoryUid, setSelectedCategoryUid] = useRecoilState(selectedCategoryState);
   const [, setSelectedThemeImageUrl] = useRecoilState(selectedImageUrl);
-  const { isLoading, isError, data: categoryData } = useFetchTheme("category");
 
   const allCategoryItemClick = () => {
     setSelectedCategoryUid("default");
@@ -49,6 +48,7 @@ export default function ThemeModalCategory() {
     </>
   );
 }
+
 const CategoryItems = styled.div`
   display: flex;
   justify-content: center;

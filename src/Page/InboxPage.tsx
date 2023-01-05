@@ -1,6 +1,12 @@
 import styled from "styled-components";
+import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { ModalModeState, ModalOpenValueState } from "../Store/statesStore";
+import {
+  MiniModalModeState,
+  MiniModalOpenValueState,
+  ModalModeState,
+  ModalOpenValueState,
+} from "../Store/statesStore";
 import Modal from "../Components/Modal/Modal";
 import ThemeModal from "../Components/Modal/ThemeModal";
 import RecomendMessageModal from "../Components/Modal/RecomendMessageModal";
@@ -9,14 +15,19 @@ import TitleSection from "../Components/TitleSection";
 import InBoxContent from "../Components/InBoxContent";
 import ThemeSection from "../Components/ThemeSection";
 import InputMessageSection from "../Components/InputMessageSection";
-import { useCallback } from "react";
+import BottomSection from "../Components/BottomSection";
+import MiniModal from "../Components/PopupModal/MiniModal";
+import SendQuestion from "../Components/PopupModal/SendQuestion";
+import Complete from "../Components/PopupModal/Complete";
 
 export default function InboxPage() {
   const [isModalOpen] = useRecoilState(ModalOpenValueState);
-  const [mode] = useRecoilState(ModalModeState);
+  const [isMiniModalOpen] = useRecoilState(MiniModalOpenValueState);
+  const [modalMode] = useRecoilState(ModalModeState);
+  const [MiniModalMode] = useRecoilState(MiniModalModeState);
 
-  const Component = useCallback(() => {
-    let nowMode = mode.mode;
+  const ModalComponent = useCallback(() => {
+    let nowMode = modalMode.mode;
 
     switch (nowMode) {
       case "theme":
@@ -28,13 +39,28 @@ export default function InboxPage() {
       default:
         return null;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isModalOpen]);
+  }, [modalMode.mode]);
+
+  const MiniModalComponent = useCallback(() => {
+    let nowMode = MiniModalMode.mode;
+
+    switch (nowMode) {
+      case "question":
+        return <SendQuestion />;
+
+      case "complete":
+        return <Complete />;
+
+      default:
+        return null;
+    }
+  }, [MiniModalMode.mode]);
 
   return (
     <Shelf>
       <Container>
-        {isModalOpen && <Modal>{Component()}</Modal>}
+        {isModalOpen && <Modal>{ModalComponent()}</Modal>}
+        {isMiniModalOpen && <MiniModal>{MiniModalComponent()}</MiniModal>}
         <TopWrapper>
           <TitleSection />
         </TopWrapper>
@@ -53,9 +79,7 @@ export default function InboxPage() {
           <InputMessageSection />
         </InputMessageWrapper>
         <BottomWrapper>
-          <SendButtonBox>
-            <SendButton>감동메시지 보내기</SendButton>
-          </SendButtonBox>
+          <BottomSection />
         </BottomWrapper>
       </Container>
     </Shelf>
@@ -127,22 +151,4 @@ const BottomWrapper = styled.div`
   align-items: flex-end;
   width: 100%;
   height: 150px;
-`;
-const SendButtonBox = styled.div`
-  display: flex;
-  width: 100%;
-  height: 65px;
-  padding: 0px 15px;
-`;
-const SendButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  background-color: #f25449;
-  border-radius: 10px;
 `;

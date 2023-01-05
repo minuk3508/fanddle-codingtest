@@ -1,15 +1,16 @@
-import styled from "styled-components";
-import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { useState } from "react";
+import styled from "styled-components";
 import useFetchInBox from "../Hooks/inBoxFetcher";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
 type StyledProps = {
   spreadValue: "350px" | "40px";
 };
 
 export default function InBoxContent() {
-  const [isSpread, setIsSpread] = useState(false);
   const { isLoading, isError, data } = useFetchInBox();
+  const [isSpread, setIsSpread] = useState(false);
+
   const spreadButtonClick = () => {
     setIsSpread((prev) => !prev);
   };

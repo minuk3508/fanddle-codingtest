@@ -1,10 +1,13 @@
-import { AiOutlineClose } from "react-icons/ai";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { ModalOpenValueState, selectedRecomendedTemplate } from "../../Store/statesStore";
-import { selectedRecomendedState } from "../../Store/fetcherStore";
-import RecomendMessageModalCategory from "./RecomendMessageModalCategory";
+import { useRecoilState } from "recoil";
+import {
+  ModalOpenValueState,
+  selectedRecomendedState,
+  selectedRecomendedTemplate,
+} from "../../Store/statesStore";
 import useFetchTemplate from "../../Hooks/templateFetcher";
+import RecomendMessageModalCategory from "./RecomendMessageModalCategory";
+import { AiOutlineClose } from "react-icons/ai";
 
 const templateStyle = {
   selected: { backgroundColor: "#f25449", color: "white", border: "none" },
@@ -101,7 +104,6 @@ const CategoryWrapper = styled.div`
     display: none;
   }
 `;
-
 const TemplateItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -111,7 +113,6 @@ const TemplateItemWrapper = styled.div`
   overflow: scroll;
   width: 100%;
   height: 200px;
-
   ::-webkit-scrollbar {
     display: none;
   }

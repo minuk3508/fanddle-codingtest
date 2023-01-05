@@ -1,7 +1,7 @@
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { selectedRecomendCategoryState } from "../../Store/statesStore";
 import useFetchTemplate from "../../Hooks/templateFetcher";
-import { selectedRecomendCategoryState } from "../../Store/fetcherStore";
 
 const categoryStyle = {
   selected: { backgroundColor: "#f25449", color: "white" },
@@ -9,8 +9,9 @@ const categoryStyle = {
 };
 
 export default function RecomendMessageModalCategory() {
-  const [categoryUid, setSelectedCategoryUid] = useRecoilState(selectedRecomendCategoryState);
   const { isLoading, isError, data: recomendCategory } = useFetchTemplate("category");
+  const [categoryUid, setSelectedCategoryUid] = useRecoilState(selectedRecomendCategoryState);
+
   const allCategoryItemClick = () => {
     setSelectedCategoryUid("default");
   };

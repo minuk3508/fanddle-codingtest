@@ -13,9 +13,9 @@ type StyledProps = {
 
 export default function InputMessageSection() {
   const [text, setText] = useRecoilState(selectedRecomendedTemplate);
+  const [, setIsModal] = useRecoilState(ModalOpenValueState);
   const [, setMode] = useRecoilState(ModalModeState);
   const [overLength, setOverLength] = useState(false);
-  const [, setIsModal] = useRecoilState(ModalOpenValueState);
 
   const inputText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);

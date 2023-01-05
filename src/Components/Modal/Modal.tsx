@@ -1,6 +1,6 @@
 import { ReactNode, useRef } from "react";
-import { useRecoilState } from "recoil";
 import styled, { keyframes } from "styled-components";
+import { useRecoilState } from "recoil";
 import { ModalOpenValueState } from "../../Store/statesStore";
 
 type ModalProps = {
@@ -9,8 +9,8 @@ type ModalProps = {
 
 export default function Modal({ children }: ModalProps) {
   const [, setIsModal] = useRecoilState(ModalOpenValueState);
-
   const modalElement = useRef<HTMLDivElement>(null);
+
   const onClick = (e: any) => {
     if (!modalElement.current?.contains(e.target)) {
       setIsModal(false);

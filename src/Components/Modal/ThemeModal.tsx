@@ -1,10 +1,9 @@
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { selectedImageUrl, ModalOpenValueState } from "../../Store/statesStore";
-import { selectedThemeState } from "../../Store/fetcherStore";
-import { AiOutlineClose } from "react-icons/ai";
+import { useRecoilState } from "recoil";
+import { selectedImageUrl, ModalOpenValueState, selectedThemeState } from "../../Store/statesStore";
 import useFetchTheme from "../../Hooks/themeFetcher";
 import ThemeModalCategory from "./ThemeModalCategory";
+import { AiOutlineClose } from "react-icons/ai";
 
 const themeImageStyle = {
   selected: { border: "2px solid #f25449" },
@@ -90,14 +89,13 @@ const CloseButtonBox = styled.div`
 `;
 const CategoryWrapper = styled.div`
   display: flex;
-  overflow: scroll;
+  overflow-y: scroll;
   width: 100%;
   height: 45px;
   ::-webkit-scrollbar {
     display: none;
   }
 `;
-
 const ThemeContentsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;

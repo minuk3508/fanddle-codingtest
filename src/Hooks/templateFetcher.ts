@@ -6,9 +6,9 @@ import {
   recomendSelector,
 } from "../Store/fetcherStore";
 
-type SelectorOfTheme = "all" | "category" | "detail";
+type FetcherType = "all" | "category" | "detail";
 
-export default function useFetchTemplate(keyword: SelectorOfTheme) {
+export default function useFetchTemplate(keyword: FetcherType) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [data, setData] = useState<any>();
